@@ -5,7 +5,7 @@ import "dotenv/config";
 
 import { router } from "./routers/index.js";
 
-let dataBase = null;
+export let dataBase = null;
 
 function runSerer() {
   const app = express();

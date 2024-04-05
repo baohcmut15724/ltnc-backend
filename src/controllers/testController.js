@@ -1,19 +1,15 @@
 import { StatusCodes } from "http-status-codes";
+import { models } from "../models/testModel.js";
 
 async function create(req, res) {
   try {
-    // console.log("res.body: ", req.body);
-    // console.log("req.query: ", req.query);
-    // console.log("req.params: ", req.params);
-    // throw new Error("Loi tu controller");
-
-    res
-      .status(StatusCodes.CREATED)
-      .json({ message: "POST: Du lieu da di den tang controller" });
+    res.status(StatusCodes.CREATED).json(await models.create(req.body));
   } catch (err) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error_rgf: err.message });
+    err = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: err.stack,
+    });
   }
 }
 

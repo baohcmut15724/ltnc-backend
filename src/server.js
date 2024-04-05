@@ -3,15 +3,15 @@ import exitHook from "async-exit-hook";
 import { MongoClient } from "mongodb";
 import "dotenv/config";
 
+import { router } from "./routers/index.js";
+
 let dataBase = null;
 
 function runSerer() {
   const app = express();
 
-  app.get("/", async (req, res) => {
-    let arr = await dataBase.listCollections().toArray();
-    res.send(arr);
-  });
+  app.use(express.json());
+  app.use(router);
 
   app.listen(process.env.PORT, () => {
     console.log(

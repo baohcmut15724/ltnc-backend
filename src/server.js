@@ -10,7 +10,13 @@ export let dataBase = null;
 function runSerer() {
   const app = express();
 
+  app.use(
+    express.urlencoded({
+      extended: true,
+    })
+  );
   app.use(express.json());
+
   app.use(router);
 
   app.listen(process.env.PORT, () => {

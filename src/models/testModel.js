@@ -1,4 +1,5 @@
 import Joi from "joi";
+import bcrypt from "bcrypt";
 
 import { dataBase } from "../server.js";
 
@@ -27,8 +28,14 @@ async function create(data) {
 
   try {
     data = await schema.validateAsync(data, { abortEarly: false });
+
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(data.password, salt);
+    data.password = hashPassword;
+
     let status = await dataBase.collection("users").insertOne(data);
     data._id = status.insertedId;
+    delete data.password;
     return data;
   } catch (err) {
     throw new Error(err);

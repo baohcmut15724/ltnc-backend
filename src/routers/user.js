@@ -6,12 +6,12 @@ import { verifyToken } from "../middleware.js";
 
 export const userRouter = express.Router();
 
-// userRouter.get("/", (req, res) => {
-//   res.status(StatusCodes.OK).json({ message: "GET: testAPI thanh cong" });
-// });
-
 userRouter.post("/login", validations.login, controllers.login);
-
 userRouter.get("/private", verifyToken, function (req, res) {
   res.status(StatusCodes.OK).json({ message: "GET: private thanh cong" });
 });
+userRouter.post("/register", validations.register, controllers.register);
+userRouter.get("/verify/:token", controllers.verify);
+userRouter.get("/logout", controllers.logout);
+// userRouter.get("/profile", controllers.profile);
+// userRouter.put("/profile", controllers.updateProfile);

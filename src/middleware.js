@@ -6,7 +6,7 @@ export async function verifyToken(req, res, next) {
   if (!token)
     return res
       .status(StatusCodes.FORBIDDEN)
-      .json({ error: "Access denied!, token not found" });
+      .json({ error: "You are not login" });
 
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);

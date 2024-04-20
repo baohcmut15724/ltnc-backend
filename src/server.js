@@ -3,6 +3,7 @@ import exitHook from "async-exit-hook";
 import { MongoClient } from "mongodb";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import { router } from "./routers/index.js";
 
@@ -11,6 +12,7 @@ export let dataBase = null;
 function runSerer() {
   const app = express();
 
+  app.use(cors());
   app.use(cookieParser());
   app.use(
     express.urlencoded({

@@ -3,7 +3,7 @@ import { models } from "../models/user.js";
 import jwt from "jsonwebtoken";
 
 import { sendMail } from "../provider.js";
-import { htmlVerify } from "../until.js";
+import { htmlVerify, htmlEmail } from "../until.js";
 
 async function login(req, res) {
   try {
@@ -31,40 +31,7 @@ async function register(req, res) {
     // const htmlContent = `<h1>Click vào link sau để xác thực email</h1>
     // <a href="http://localhost:3000/user/verify/${token}">Xác thực email</a>`;
 
-    const htmlContent = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác thực tài khoản email</title>
-    </head>
-    <body>
-    <p>Chào bạn,</p>
-
-    <p>
-      Cảm ơn bạn đã đăng ký tài khoản với chúng tôi. Để hoàn tất quá trình đăng ký và bảo mật tài khoản, bạn cần xác thực địa chỉ email của mình.
-    </p>
-    
-    <p>
-      Vui lòng nhấp vào <a href="http://localhost:3000/user/verify/${token}">liên kết này</a> để hoàn tất quá trình xác thực.
-    </p>
-    
-    <p>
-      Nếu bạn không yêu cầu xác thực này, vui lòng bỏ qua email này. Để bảo vệ tài khoản của bạn, xin vui lòng không chia sẻ liên kết này với bất kỳ ai khác.
-    </p>
-    
-    <p>
-      Nếu bạn gặp bất kỳ vấn đề nào hoặc cần sự trợ giúp, đừng ngần ngại liên hệ với chúng tôi qua email này.
-    </p>
-    
-    <p>
-      Trân trọng,<br>
-      Trucking Corp.
-    </p>
-    
-    </body>
-    </html>
-    `;
+    const htmlContent = htmlEmail(token);
 
     sendMail(data.email, subject, htmlContent);
 

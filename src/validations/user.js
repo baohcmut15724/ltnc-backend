@@ -3,8 +3,12 @@ import { StatusCodes } from "http-status-codes";
 
 async function login(req, res, next) {
   const schema = Joi.object({
-    username: Joi.string().required().min(3).max(30).trim().strict(),
-    password: Joi.string().required().min(8).max(12).trim().strict(),
+    username: Joi.string().required().alphanum().min(3).max(30).trim().strict(),
+    password: Joi.string()
+      .required()
+      .trim()
+      .strict()
+      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
   });
 
   try {
@@ -21,16 +25,26 @@ async function login(req, res, next) {
 
 async function register(req, res, next) {
   const schema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(30).required(),
+    username: Joi.string().required().alphanum().min(3).max(30).trim().strict(),
     password: Joi.string()
       .required()
+      .trim()
+      .strict()
       .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
     email: Joi.string()
       .required()
       .email({
         minDomainSegments: 2,
         tlds: { allow: ["com", "net", "edu", "vn"] },
-      }),
+      })
+      .trim()
+      .strict(),
+    fullName: Joi.string().required().trim().strict(),
+    phoneNumber: Joi.string().required().min(10).max(11).trim().strict(),
+    address: Joi.string().required().trim().strict(),
+    drivingLicense: Joi.string()
+      .required()
+      .valid("truck", "coach", "container"),
   });
 
   try {

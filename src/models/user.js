@@ -1,4 +1,3 @@
-import Joi from "joi";
 import bcrypt from "bcrypt";
 
 import { dataBase } from "../server.js";
@@ -22,21 +21,9 @@ async function login(data) {
 }
 
 async function register(data) {
-  const schema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(30).required(),
-    password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
-    email: Joi.string().email({
-      minDomainSegments: 2,
-      tlds: { allow: ["com", "net", "edu", "vn"] },
-    }),
-    createdAt: Joi.date().timestamp("javascript").default(Date.now),
-    updatedAt: Joi.date().timestamp("javascript").default(null),
-    _destroy: Joi.boolean().default(false),
-  });
-
+  data.admin = false;
+  data.isActive = false;
   try {
-    data = await schema.validateAsync(data, { abortEarly: false });
-
     const user = await dataBase
       .collection("users")
       .findOne({ $or: [{ username: data.username }, { email: data.email }] });

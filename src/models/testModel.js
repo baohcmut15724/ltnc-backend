@@ -21,7 +21,7 @@ async function create(data) {
     password: Joi.string().required().min(8).max(12).trim().strict(),
     slug: Joi.string().required().min(3).trim().strict(),
 
-    createdAt: Joi.date().timestamp("javascript").default(Date.now),
+    createdAt: Joi.date().timestamp("javascript").default(Date.now()),
     updatedAt: Joi.date().timestamp("javascript").default(null),
     _destroy: Joi.boolean().default(false),
   });

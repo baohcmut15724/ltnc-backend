@@ -6,13 +6,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { router } from "./routers/index.js";
+import { corsOptions } from "./config.js";
 
 export let dataBase = null;
 
 function runSerer() {
   const app = express();
 
-  app.use(cors());
+  app.use(cors(corsOptions));
   app.use(cookieParser());
   app.use(
     express.urlencoded({

@@ -42,19 +42,27 @@ async function register(req, res, next) {
     fullName: Joi.string().required().trim().strict(),
     phoneNumber: Joi.string().required().min(10).max(11).trim().strict(),
     address: Joi.string().required().trim().strict(),
-    drivingLicense: Joi.string()
+    drivingLicense: Joi.array()
       .required()
-      .valid("truck", "coach", "container"),
+      .items(Joi.string().valid("truck", "coach", "container"))
+      .min(1)
+      .max(3),
   });
 
   try {
     await schema.validateAsync(req.body, { abortEarly: false });
     next();
   } catch (err) {
-    err = new Error(err);
+    let newError = new Error(err);
+    let arrMessage = [];
+    for (let i = 0; i < err.details.length; i++) {
+      arrMessage.push(err.details[i].message);
+    }
+    // console.log(arrMessage);
+
     res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-      error: err.message,
-      stack: err.stack,
+      error: arrMessage,
+      stack: newError.stack,
     });
   }
 }

@@ -22,7 +22,7 @@ async function login(data) {
 
 async function register(data) {
   data.admin = false;
-  data.isActive = false;
+  data.status = "inactive";
   try {
     const user = await dataBase
       .collection("users")

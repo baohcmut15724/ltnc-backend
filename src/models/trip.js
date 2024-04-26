@@ -4,6 +4,9 @@ import { dataBase } from "../server.js";
 
 async function create(data) {
   try {
+    const trip = await dataBase.collection("trips").insertOne(data);
+    data._id = trip.insertedId;
+    return data;
   } catch (err) {
     throw err;
   }
@@ -66,7 +69,19 @@ async function findDriver(data) {
   }
 }
 
+async function getTrips() {
+  try {
+    return await dataBase
+      .collection("trips")
+      .find({ $or: [{ done: false }, { done: null }] })
+      .toArray();
+  } catch (err) {
+    throw err;
+  }
+}
+
 export const models = {
   create,
   findDriver,
+  getTrips,
 };

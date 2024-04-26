@@ -8,10 +8,6 @@ export const tripRouter = express.Router();
 
 tripRouter.use(verifyTokenAdmin);
 
-// tripRouter.get("/trips", controllers.getTrips);
-
+tripRouter.get("/", controllers.getTrips);
 tripRouter.post("/findDriver", validations.findDriver, controllers.findDriver);
-
-tripRouter.post("/create", (req, res) => {
-  res.status(StatusCodes.OK).json({ message: "POST: create trip thanh cong" });
-});
+tripRouter.post("/", validations.create, controllers.create);

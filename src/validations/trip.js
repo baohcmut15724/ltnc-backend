@@ -3,7 +3,20 @@ import { StatusCodes } from "http-status-codes";
 
 async function create(req, res, next) {
   const schema = Joi.object({
-    username: Joi.string().required().alphanum().min(3).max(30).trim().strict(),
+    driverId: Joi.string()
+      .required()
+      .regex(/^[0-9a-fA-F]{24}$/),
+    carId: Joi.string()
+      .required()
+      .regex(/^[0-9a-fA-F]{24}$/),
+    title: Joi.string().required().trim().strict(),
+    description: Joi.string().optional().trim().strict(),
+    departureTime: Joi.date().required(),
+    source: Joi.string().required().trim().strict(),
+    target: Joi.string().required().trim().strict(),
+    revenue: Joi.number().required(),
+    vehicle: Joi.string().required().valid("truck", "coach", "container"),
+    fuel: Joi.string().required().valid("xăng", "dầu", "điện"),
   });
 
   try {

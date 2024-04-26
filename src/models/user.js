@@ -101,14 +101,31 @@ async function profile(data) {
 
 async function updateProfile(data, id) {
   try {
-    await dataBase.collection("users").findOneAndUpdate(
+    const user = await dataBase.collection("users").findOneAndUpdate(
       { _id: new ObjectId(id) },
       {
         $set: {
           ...data,
         },
+      },
+      {
+        returnDocument: "after",
       }
     );
+    delete user.password;
+    return user;
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function getAllUser() {
+  try {
+    const users = await dataBase
+      .collection("users")
+      .find({}, { projection: { password: 0 } })
+      .toArray();
+    return users;
   } catch (err) {
     throw err;
   }
@@ -122,4 +139,5 @@ export const models = {
   available,
   profile,
   updateProfile,
+  getAllUser,
 };

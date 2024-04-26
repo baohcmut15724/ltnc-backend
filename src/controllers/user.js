@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { models } from "../models/user.js";
 import jwt from "jsonwebtoken";
 
+import { models } from "../models/user.js";
 import { sendMail } from "../provider.js";
 import { htmlVerify, htmlEmail } from "../constant.js";
 
@@ -17,11 +17,11 @@ async function login(req, res) {
     res.cookie("token", token);
     res.status(StatusCodes.OK).json(user);
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     // console.log(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
     });
   }
 }
@@ -41,10 +41,10 @@ async function register(req, res) {
 
     res.status(StatusCodes.OK).json({ message: "Vui long xac thuc email" });
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
     });
   }
 }
@@ -61,10 +61,10 @@ async function verify(req, res) {
       // .redirect("http://localhost:3000/login");
       .send(htmlVerify);
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
     });
   }
 }
@@ -75,10 +75,10 @@ async function logout(req, res) {
     res.clearCookie("token");
     res.status(StatusCodes.OK).json({ message: "Logout success" });
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
     });
   }
 }
@@ -88,10 +88,10 @@ async function available(req, res) {
     await models.available(req.user);
     res.status(StatusCodes.OK).json({ message: "Available" });
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
     });
   }
 }
@@ -101,23 +101,36 @@ async function profile(req, res) {
     // res.status(StatusCodes.OK).json(req.user);
     res.status(StatusCodes.OK).json(await models.profile(req.user));
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
     });
   }
 }
 
 async function updateProfile(req, res) {
   try {
-    await models.updateProfile(req.body, req.user._id);
-    res.status(StatusCodes.OK).json({ message: "Update profile success" });
+    res
+      .status(StatusCodes.OK)
+      .json(await models.updateProfile(req.body, req.user._id));
   } catch (err) {
-    err = new Error(err);
+    const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-      stack: err.stack,
+      stack: newErr.stack,
+    });
+  }
+}
+
+async function getAllUser(req, res) {
+  try {
+    res.status(StatusCodes.OK).json(await models.getAllUser());
+  } catch (err) {
+    const newErr = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: newErr.stack,
     });
   }
 }
@@ -130,4 +143,5 @@ export const controllers = {
   available,
   profile,
   updateProfile,
+  getAllUser,
 };

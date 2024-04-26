@@ -71,7 +71,7 @@ async function verify(req, res) {
 
 async function logout(req, res) {
   try {
-    await models.logout(req.user);
+    // await models.logout(req.user);
     res.clearCookie("token");
     res.status(StatusCodes.OK).json({ message: "Logout success" });
   } catch (err) {
@@ -83,10 +83,10 @@ async function logout(req, res) {
   }
 }
 
-async function available(req, res) {
+async function switchStatus(req, res) {
   try {
-    await models.available(req.user);
-    res.status(StatusCodes.OK).json({ message: "Available" });
+    await models.switchStatus(req.user, req.body.available);
+    res.status(StatusCodes.OK).json({ message: "Switch status done" });
   } catch (err) {
     const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -140,7 +140,7 @@ export const controllers = {
   register,
   verify,
   logout,
-  available,
+  switchStatus,
   profile,
   updateProfile,
   getAllUser,

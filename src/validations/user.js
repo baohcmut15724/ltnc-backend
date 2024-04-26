@@ -73,6 +73,29 @@ async function register(req, res, next) {
   }
 }
 
+async function switchStatus(req, res, next) {
+  const schema = Joi.object({
+    available: Joi.boolean().required(),
+  });
+
+  try {
+    await schema.validateAsync(req.body, { abortEarly: false });
+    next();
+  } catch (err) {
+    let newError = new Error(err);
+    let arrMessage = [];
+    for (let i = 0; i < err.details.length; i++) {
+      arrMessage.push(err.details[i].message);
+    }
+    // console.log(arrMessage);
+
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+      error: arrMessage,
+      stack: newError.stack,
+    });
+  }
+}
+
 async function updateProfile(req, res, next) {
   const schema = Joi.object({
     username: Joi.string().required().alphanum().min(3).max(30).trim().strict(),
@@ -107,5 +130,6 @@ async function updateProfile(req, res, next) {
 export const validations = {
   login,
   register,
+  switchStatus,
   updateProfile,
 };

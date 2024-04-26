@@ -30,7 +30,7 @@ async function register(data) {
       .collection("users")
       .findOne({ $or: [{ username: data.username }, { email: data.email }] });
     if (user) {
-      throw new Error("Username or email available");
+      throw new Error("Username or email switchStatus");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -57,28 +57,14 @@ async function verify(data) {
   }
 }
 
-async function logout(data) {
+async function switchStatus(data, available) {
+  const sta = available ? "available" : "inactive";
   try {
     await dataBase.collection("users").findOneAndUpdate(
       { _id: new ObjectId(data._id) },
       {
         $set: {
-          status: "inactive",
-        },
-      }
-    );
-  } catch (err) {
-    throw err;
-  }
-}
-
-async function available(data) {
-  try {
-    await dataBase.collection("users").findOneAndUpdate(
-      { _id: new ObjectId(data._id) },
-      {
-        $set: {
-          status: "available",
+          status: sta,
         },
       }
     );
@@ -135,8 +121,7 @@ export const models = {
   login,
   register,
   verify,
-  logout,
-  available,
+  switchStatus,
   profile,
   updateProfile,
   getAllUser,

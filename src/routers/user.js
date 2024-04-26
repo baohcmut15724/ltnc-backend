@@ -17,7 +17,11 @@ userRouter.get("/private", function (req, res) {
   res.status(StatusCodes.OK).json({ message: "GET: private thanh cong" });
 });
 userRouter.get("/logout", controllers.logout);
-userRouter.get("/available", controllers.available);
+userRouter.post(
+  "/switchStatus/",
+  validations.switchStatus,
+  controllers.switchStatus
+);
 userRouter.get("/profile", controllers.profile);
 userRouter.put(
   "/profile",

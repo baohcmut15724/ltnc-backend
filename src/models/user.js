@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { ObjectId } from "mongodb";
 
 import { dataBase } from "../server.js";
 
@@ -16,13 +17,14 @@ async function login(data) {
     delete user.password;
     return user;
   } catch (err) {
-    throw new Error(err);
+    throw err;
   }
 }
 
 async function register(data) {
   data.admin = false;
   data.status = "inactive";
+  data.point = 0;
   try {
     const user = await dataBase
       .collection("users")
@@ -37,7 +39,7 @@ async function register(data) {
 
     return data;
   } catch (err) {
-    throw new Error(err);
+    throw err;
   }
 }
 
@@ -51,7 +53,64 @@ async function verify(data) {
       await dataBase.collection("users").insertOne(data);
     }
   } catch (err) {
-    throw new Error(err);
+    throw err;
+  }
+}
+
+async function logout(data) {
+  try {
+    await dataBase.collection("users").findOneAndUpdate(
+      { _id: new ObjectId(data._id) },
+      {
+        $set: {
+          status: "inactive",
+        },
+      }
+    );
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function available(data) {
+  try {
+    await dataBase.collection("users").findOneAndUpdate(
+      { _id: new ObjectId(data._id) },
+      {
+        $set: {
+          status: "available",
+        },
+      }
+    );
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function profile(data) {
+  try {
+    const user = await dataBase
+      .collection("users")
+      .findOne({ _id: new ObjectId(data._id) });
+    delete user.password;
+    return user;
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function updateProfile(data, id) {
+  try {
+    await dataBase.collection("users").findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          ...data,
+        },
+      }
+    );
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -59,4 +118,8 @@ export const models = {
   login,
   register,
   verify,
+  logout,
+  available,
+  profile,
+  updateProfile,
 };

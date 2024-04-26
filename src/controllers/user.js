@@ -3,18 +3,22 @@ import { models } from "../models/user.js";
 import jwt from "jsonwebtoken";
 
 import { sendMail } from "../provider.js";
-import { htmlVerify, htmlEmail } from "../until.js";
+import { htmlVerify, htmlEmail } from "../constant.js";
 
 async function login(req, res) {
   try {
     // res.status(StatusCodes.CREATED).json(await models.login(req.body));
     const user = await models.login(req.body);
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { _id: user._id, admin: user.admin },
+      process.env.JWT_SECRET
+    );
     res.cookie("token", token);
     res.status(StatusCodes.OK).json(user);
   } catch (err) {
     err = new Error(err);
+    // console.log(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: err.message,
       stack: err.stack,
@@ -67,11 +71,48 @@ async function verify(req, res) {
 
 async function logout(req, res) {
   try {
-    if (!req.cookies.token) {
-      throw new Error("You are not login");
-    }
+    await models.logout(req.user);
     res.clearCookie("token");
     res.status(StatusCodes.OK).json({ message: "Logout success" });
+  } catch (err) {
+    err = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: err.stack,
+    });
+  }
+}
+
+async function available(req, res) {
+  try {
+    await models.available(req.user);
+    res.status(StatusCodes.OK).json({ message: "Available" });
+  } catch (err) {
+    err = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: err.stack,
+    });
+  }
+}
+
+async function profile(req, res) {
+  try {
+    // res.status(StatusCodes.OK).json(req.user);
+    res.status(StatusCodes.OK).json(await models.profile(req.user));
+  } catch (err) {
+    err = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: err.stack,
+    });
+  }
+}
+
+async function updateProfile(req, res) {
+  try {
+    await models.updateProfile(req.body, req.user._id);
+    res.status(StatusCodes.OK).json({ message: "Update profile success" });
   } catch (err) {
     err = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -86,4 +127,7 @@ export const controllers = {
   register,
   verify,
   logout,
+  available,
+  profile,
+  updateProfile,
 };

@@ -71,10 +71,22 @@ async function findDriver(data) {
 
 async function getTrips() {
   try {
-    return await dataBase
+    const trips = await dataBase
       .collection("trips")
       .find({ $or: [{ done: false }, { done: null }] })
       .toArray();
+
+    for (const trip of trips) {
+      const driver = await dataBase
+        .collection("users")
+        .findOne({ _id: new ObjectId(trip.driverId) });
+      const car = await dataBase
+        .collection("cars")
+        .findOne({ _id: new ObjectId(trip.carId) });
+      trip.driver = driver;
+      trip.car = car;
+    }
+    return { trips };
   } catch (err) {
     throw err;
   }

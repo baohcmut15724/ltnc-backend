@@ -42,6 +42,67 @@ async function create(data) {
   }
 }
 
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+async function tao(req, res) {
+  const arr = ["truck", "coach", "container"];
+
+  try {
+    for (let i = 1; i < 11; i++) {
+      let data = {};
+      data.username = `user${i}`;
+      data.password = `1234`;
+      data.email = `thaibao${i}`;
+      data.fullName = `Bao Thai ${i}`;
+      data.phoneNumber = `012345678${i}`;
+      data.address = `HCM ${i}`;
+      data.drivingLicense = [arr[getRandomNumber(0, 2)]];
+      data.admin = false;
+      data.status = "inactive";
+      data.point = 0;
+
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(data.password, salt);
+      data.password = hashPassword;
+
+      await dataBase.collection("users").insertOne(data);
+    }
+
+    res.json({ message: "Tạo thành công" });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+}
+
+async function taoXe(req, res) {
+  const arr = ["truck", "coach", "container"];
+  const fuel = ["xăng", "dầu", "điện"];
+  try {
+    for (let i = 1; i < 11; i++) {
+      let data = {};
+      data.licensePlate = `51C-${i}`;
+      data.type = arr[getRandomNumber(0, 2)];
+      data.size = "5*20";
+      data.weight = 5000;
+      data.fuel = fuel[getRandomNumber(0, 2)];
+      data.kmTraveled = 0;
+      data.kmMaintenance = 5000;
+      data.status = "inactive";
+      data.maintenanceHistory = [];
+
+      await dataBase.collection("cars").insertOne(data);
+    }
+
+    res.json({ message: "Tạo thành công" });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+}
+
 export const models = {
   create,
+  tao,
+  taoXe,
 };

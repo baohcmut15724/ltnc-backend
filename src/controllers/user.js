@@ -135,6 +135,70 @@ async function getAllUser(req, res) {
   }
 }
 
+async function history(req, res) {
+  try {
+    res.status(StatusCodes.OK).json(await models.history(req.user));
+  } catch (err) {
+    const newErr = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: newErr.stack,
+    });
+  }
+}
+
+async function cancelTrip(req, res) {
+  try {
+    await models.cancelTrip(req.user, req.params.id);
+    res.status(StatusCodes.OK).json({ message: "Cancel trip success" });
+  } catch (err) {
+    const newErr = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: newErr.stack,
+    });
+  }
+}
+
+async function startTrip(req, res) {
+  try {
+    res
+      .status(StatusCodes.OK)
+      .json(await models.startTrip(req.user, req.params.id));
+  } catch (err) {
+    const newErr = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: newErr.stack,
+    });
+  }
+}
+
+async function finishTrip(req, res) {
+  try {
+    await models.finishTrip(req.user, req.params.id);
+    res.status(StatusCodes.OK).json({ message: "Finish trip success" });
+  } catch (err) {
+    const newErr = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: newErr.stack,
+    });
+  }
+}
+
+async function getWaitingTrip(req, res) {
+  try {
+    res.status(StatusCodes.OK).json(await models.getWaitingTrip(req.user._id));
+  } catch (err) {
+    const newErr = new Error(err);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+      stack: newErr.stack,
+    });
+  }
+}
+
 export const controllers = {
   login,
   register,
@@ -144,4 +208,9 @@ export const controllers = {
   profile,
   updateProfile,
   getAllUser,
+  history,
+  cancelTrip,
+  startTrip,
+  finishTrip,
+  getWaitingTrip,
 };

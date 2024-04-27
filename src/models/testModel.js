@@ -54,7 +54,7 @@ async function tao(req, res) {
       let data = {};
       data.username = `user${i}`;
       data.password = `1234`;
-      data.email = `thaibao${i}`;
+      data.email = `thaibao${i}@hcmut.edu.vn`;
       data.fullName = `Bao Thai ${i}`;
       data.phoneNumber = `012345678${i}`;
       data.address = `HCM ${i}`;

@@ -28,3 +28,9 @@ userRouter.put(
   validations.updateProfile,
   controllers.updateProfile
 );
+userRouter.get("/history", controllers.history);
+
+userRouter.get("/cancelTrip/:id", controllers.cancelTrip);
+userRouter.get("/startTrip/:id", controllers.startTrip);
+userRouter.get("/finishTrip/:id", controllers.finishTrip);
+userRouter.get("/getWaitingTrip", controllers.getWaitingTrip);

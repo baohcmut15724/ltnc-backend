@@ -86,7 +86,7 @@ async function getTrips() {
       trip.driver = driver;
       trip.car = car;
     }
-    return { trips };
+    return trips;
   } catch (err) {
     throw err;
   }

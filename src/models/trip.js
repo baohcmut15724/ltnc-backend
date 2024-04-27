@@ -4,6 +4,8 @@ import { dataBase } from "../server.js";
 
 async function create(data) {
   try {
+    data.driverId = new ObjectId(data.driverId);
+    data.carId = new ObjectId(data.carId);
     const trip = await dataBase.collection("trips").insertOne(data);
     data._id = trip.insertedId;
     return data;

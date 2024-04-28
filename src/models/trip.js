@@ -78,6 +78,9 @@ async function getTrips() {
       .find({ $or: [{ done: false }, { done: null }] })
       .toArray();
 
+    if (trips.length === 0) {
+      throw new Error("No trip available");
+    }
     for (const trip of trips) {
       const driver = await dataBase
         .collection("users")

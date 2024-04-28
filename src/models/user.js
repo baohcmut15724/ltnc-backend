@@ -256,11 +256,15 @@ async function finishTrip(data, id) {
 async function getWaitingTrip(id) {
   try {
     // console.log(id);
-    const trip = await dataBase
-      .collection("trips")
-      .findOne({ done: null, driverId: id });
+    const trip = await dataBase.collection("trips").findOne({
+      driverId: new ObjectId(id),
+      $or: [{ done: false }, { done: null }],
+    });
 
     // console.log(trip);
+    if (!trip) {
+      throw new Error("No trip available");
+    }
     const car = await dataBase
       .collection("cars")
       .findOne({ _id: new ObjectId(trip.carId) });

@@ -25,6 +25,9 @@ async function findDriver(data) {
         drivingLicense: { $in: [data.vehicle] },
       })
       .toArray();
+    if (users.length === 0) {
+      throw new Error("No driver available");
+    }
     for (const item of users) {
       const trip = await dataBase.collection("trips").findOne({
         driverId: item._id,
@@ -43,7 +46,9 @@ async function findDriver(data) {
       .collection("cars")
       .find({ status: "inactive", type: data.vehicle })
       .toArray();
-
+    if (cars.length === 0) {
+      throw new Error("No car available");
+    }
     for (const item of cars) {
       const trip = await dataBase.collection("trips").findOne({
         carId: item._id,
@@ -97,8 +102,23 @@ async function getTrips() {
   }
 }
 
+async function deleteTrip(id) {
+  try {
+    const status = await dataBase
+      .collection("trips")
+      .deleteOne({ _id: new ObjectId(id), done: null });
+    // console.log(status);
+    if (status.deletedCount === 0) {
+      throw new Error("Delete failed");
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
 export const models = {
   create,
   findDriver,
   getTrips,
+  deleteTrip,
 };

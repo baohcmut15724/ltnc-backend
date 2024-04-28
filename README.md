@@ -27,6 +27,7 @@
 
 ## Trip
 
-1. http://localhost:3000/trip (get) (cac chuyen dang di va duoc duoc le lich)
+1. http://localhost:3000/trip (get) (cac chuyen dang di va duoc duoc len lich)
 2. http://localhost:3000/trip/findDriver (post) (tim tai xe va xe cho chuyen di)
 3. http://localhost:3000/trip (post) (tao chuyen di moi)
+4. http://localhost:3000/trip/:id (delete) (huy chuyen di đã được lên lịch, nếu hủy các chuyến đi đang đi hoặc đã xong sẽ ném ra lỗi)

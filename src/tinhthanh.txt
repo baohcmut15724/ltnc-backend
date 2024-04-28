@@ -1,19 +1,19 @@
 HaNoi ThaiNguyen(75),VinhPhuc(55),HaNam(54),HoaBinh(71),BacGiang(67),BacNinh(30),HungYen(59),HoaBinh(71),PhuTho(95)
 HoChiMinh BinhDuong(70),DongNai(70),TayNinh(87),BaRiaVungTau(89),LongAn(50)
-HaiPhong QuangNinh(86),ThaiBinh(64),HaiDuong(68)
-DaNang QuangNam(30),QuangNgai(92),ThuaThienHue(94)
+HaiPhong QuangNinh(86),ThaiBinh(81),HaiDuong(68)
+DaNang QuangNam(96),ThuaThienHue(94)
 CanTho  HauGiang(13),SocTrang(61),AnGiang(73),KienGiang(76),VinhLong(83),TienGiang(87),DongThap(89)
 AnGiang KienGiang(32),HauGiang(34),DongThap(48),CanTho(73),SocTrang(75),VinhLong(78)
 BaRiaVungTau DongNai(25),BinhDuong(45),HoChiMinh(89),LongAn(90),TayNinh(97)
 BacLieu CaMau(28),SocTrang(52),KienGiang(85),HauGiang(97)
 BacKan CaoBang(62),LangSon(92),TuyenQuang(105),ThaiNguyen(135)
-BacGiang BacNinh(23),QuangNinh(79),HaGiang(120),LangSon(125)
+BacGiang BacNinh(23),QuangNinh(79),HaGiang(120),LangSon(125),ThaiNguyen(73)
 BacNinh BacGiang(23),HaiDuong(34),HungYen(47) 
 BenTre TienGiang(20),TraVinh(35),VinhLong(50),SocTrang(83)
 BinhDuong TayNinh(70),DongNai(79),BinhPhuoc(81)
 BinhDinh QuangNgai(80),PhuYen(96),GiaLai(99)
-BinhPhuoc TayNinh(29),BinhDuong(81),DongNai(86),LamDong(114),DakNong(169)
-BinhThuan NinhThuan(52),DongNai(112),BinhDuong(148)
+BinhPhuoc TayNinh(29),BinhDuong(81),DongNai(86),LamDong(229),DakNong(169)
+BinhThuan NinhThuan(52),DongNai(112),BinhDuong(148),LamDong(95)
 CaMau KienGiang(47),SocTrang(75)
 CaoBang LangSon(42),HaGiang(85)
 DakLak DakNong(47),GiaLai(59)
@@ -23,13 +23,13 @@ DongNai LamDong(196),TayNinh(100)
 DongThap CanTho(89),AnGiang(97),VinhLong(100)
 GiaLai KonTum(69),PhuYen(146)
 HaGiang LangSon(111),TuyenQuang(114)
-HaNam HungYen(15),NamDinh(42),NinhBinh(53),ThanhHoa(76)
+HaNam HungYen(15),NamDinh(42),NinhBinh(53),ThanhHoa(76),ThaiBinh(59)
 HaTinh NgheAn(52),QuangBinh(77)
-HaiDuong HungYen(24),QuangNinh(112)
+HaiDuong HungYen(24),QuangNinh(112),ThaiBinh(62)
 HauGiang SocTrang(25),VinhLong(61)
-HoaBinh SonLa(66),PhuTho(78),HaNam(87)
-HungYen ThanhHoa(127)
-KhanhHoa PhuYen(117),NinhThuan(105)
+HoaBinh SonLa(66),PhuTho(78),HaNam(87),ThanhHoa(167)
+HungYen ThanhHoa(127),ThaiBinh(44)
+KhanhHoa PhuYen(117),NinhThuan(105),LamDong(194),
 KienGiang SocTrang(49)
 KonTum GiaLai(69),QuangNgai(162)
 LaiChau LaoCai(52)
@@ -52,12 +52,12 @@ SocTrang TraVinh(68)
 SonLa YenBai(184),LaoCai(214)
 TayNinh
 ThaiBinh
-ThaiNguyen TuyenQuang(152)
-ThanhHoa
-ThuaThienHue
-TienGiang
-TraVinh
-TuyenQuang
-VinhLong
+ThaiNguyen TuyenQuang(152),VinhPhuc(84),TuyenQuang(69)
+ThanhHoa SonLa(255)
+ThuaThienHue QuangNam(180)
+TienGiang LongAn(43),HoChiMinh(68),VinhLong(103),DongThap(94)
+TraVinh VinhLong(65)
+TuyenQuang YenBai(57),VinhPhuc(87)
+VinhLong SocTrang(99)
 VinhPhuc
 YenBai

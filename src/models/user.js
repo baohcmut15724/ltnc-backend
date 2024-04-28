@@ -121,7 +121,7 @@ async function history(data) {
   try {
     const trips = await dataBase
       .collection("trips")
-      .find({ userId: data._id, done: true })
+      .find({ driverId: new ObjectId(data._id), done: true })
       .toArray();
 
     function compare(a, b) {
@@ -147,13 +147,13 @@ async function cancelTrip(data, id) {
         $inc: { point: -1 },
       }
     );
-    console.log(users);
+    // console.log(users);
   } catch (err) {
     throw err;
   }
 }
 
-async function startTrip(data, id) {
+async function startTrip(id) {
   try {
     const trip = await dataBase.collection("trips").findOneAndUpdate(
       { _id: new ObjectId(id) },
@@ -202,7 +202,7 @@ async function startTrip(data, id) {
   }
 }
 
-async function finishTrip(data, id) {
+async function finishTrip(id) {
   try {
     const timeCome = new Date().getTime();
     const trip = await dataBase.collection("trips").findOneAndUpdate(
@@ -217,6 +217,8 @@ async function finishTrip(data, id) {
         returnDocument: "after",
       }
     );
+
+    const diem = trip.timeCome > trip.expectedTimeCome ? 0.5 : 1;
 
     const car = await dataBase.collection("cars").findOneAndUpdate(
       {
@@ -241,7 +243,7 @@ async function finishTrip(data, id) {
         $set: {
           status: "available",
         },
-        $inc: { point: 1 },
+        $inc: { point: diem },
       },
       {
         returnDocument: "after",

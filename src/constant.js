@@ -63,7 +63,7 @@ export const htmlVerify = `
       />
       <h1>Xác Nhận Email Thành Công</h1>
       <p>Cảm ơn bạn đã xác nhận email thành công.</p>
-      <a href="#" class="button">Quay lại trang chủ</a>
+      <a href="http://localhost:5173/login" class="button">Quay lại trang chủ</a>
     </div>
   </body>
 </html>

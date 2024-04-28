@@ -10,6 +10,7 @@ async function login(req, res) {
     // res.status(StatusCodes.CREATED).json(await models.login(req.body));
     const user = await models.login(req.body);
 
+    // console.log({ user });
     const token = jwt.sign(
       { _id: user._id, admin: user.admin },
       process.env.JWT_SECRET
@@ -162,9 +163,7 @@ async function cancelTrip(req, res) {
 
 async function startTrip(req, res) {
   try {
-    res
-      .status(StatusCodes.OK)
-      .json(await models.startTrip(req.user, req.params.id));
+    res.status(StatusCodes.OK).json(await models.startTrip(req.params.id));
   } catch (err) {
     const newErr = new Error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -176,7 +175,7 @@ async function startTrip(req, res) {
 
 async function finishTrip(req, res) {
   try {
-    await models.finishTrip(req.user, req.params.id);
+    await models.finishTrip(req.params.id);
     res.status(StatusCodes.OK).json({ message: "Finish trip success" });
   } catch (err) {
     const newErr = new Error(err);

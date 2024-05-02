@@ -116,9 +116,32 @@ async function deleteTrip(id) {
   }
 }
 
+async function getAllTrips() {
+  try {
+    const trips = await dataBase.collection("trips").find().toArray();
+    if (trips.length === 0) {
+      throw new Error("No trip available");
+    }
+    for (const trip of trips) {
+      const driver = await dataBase
+        .collection("users")
+        .findOne({ _id: new ObjectId(trip.driverId) });
+      const car = await dataBase
+        .collection("cars")
+        .findOne({ _id: new ObjectId(trip.carId) });
+      trip.driver = driver;
+      trip.car = car;
+    }
+    return trips;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export const models = {
   create,
   findDriver,
   getTrips,
   deleteTrip,
+  getAllTrips,
 };

@@ -12,3 +12,4 @@ tripRouter.get("/", controllers.getTrips);
 tripRouter.post("/findDriver", validations.findDriver, controllers.findDriver);
 tripRouter.post("/", validations.create, controllers.create);
 tripRouter.delete("/:id", controllers.deleteTrip);
+tripRouter.get("/getAll", controllers.getAllTrips);

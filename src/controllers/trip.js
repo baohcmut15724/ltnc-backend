@@ -37,6 +37,8 @@ async function create(req, res) {
 
 async function findDriver(req, res) {
   try {
+    if (req.body.source === req.body.target)
+      throw new Error("Source and target must be different");
     const list = await models.findDriver(req.body);
     res.status(StatusCodes.OK).json(list);
   } catch (err) {
